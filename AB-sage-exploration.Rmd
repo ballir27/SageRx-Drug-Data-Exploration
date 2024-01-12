@@ -1,0 +1,38 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+```{r}
+library(tidyverse)
+```
+```{r}
+orange_book_raw <- read_csv("data/orange_book_products.csv")
+head(orange_book_raw,25)
+```
+
+```{r}
+orange_book_raw <- orange_book_raw |> 
+  separate_wider_delim(df_route,";",names = c("Drug Form", "Application Method"))
+```
+
+```{r}
+orange_book_raw |> 
+  summarize(n_distinct(ingredient), n_distinct(`Drug Form`), n_distinct(`Application Method`), n_distinct(trade_name), n_distinct(applicant))
+```
+
+
+
+
+
+
+```{r}
+orange_book_current <- orange_book_raw |> 
+  filter(type != "DISCN")
+
+orange_book_current |> head()
+```
+
+
+
