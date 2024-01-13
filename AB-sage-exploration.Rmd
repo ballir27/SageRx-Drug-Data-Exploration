@@ -13,9 +13,38 @@ head(orange_book_raw,25)
 ```
 
 ```{r}
+fda_ndc_product_raw <- read_csv("data/fda_ndc_product.csv")
+head(fda_ndc_product_raw)
+
+
+fda_ndc_product_edit <- fda_ndc_product_raw |> 
+  mutate(appl_no = str_sub(applicationnumber,4)) |> 
+  select(appl_no, active_numerator_strength, active_ingred_unit, pharm_classes)
+head(fda_ndc_product_edit)
+```
+```{r}
+fda_ndc_product_raw |> 
+  mutate()
+```
+
+```{r}
 orange_book_raw <- orange_book_raw |> 
   separate_wider_delim(df_route,";",names = c("Drug Form", "Application Method"))
 ```
+
+```{r}
+orangebook_ndc_merged <- inner_join(orange_book_raw,fda_ndc_product_edit, by="appl_no" )
+head(orangebook_ndc_merged)
+
+orangebook_ndc_pharm_class <- orangebook_ndc_merged |> 
+  separate_wider_delim(pharm_classes, ", ", names = c("pharm_class1", "pharm_class2", "pharm_class3", "pharm_class4", "pharm_class5", "pharm_class6", "pharm_class7", "pharm_class8", "pharm_class9", "pharm_class10"), too_many = "drop", too_few = "align_start")
+
+orangebook_ndc_pharm_class |> 
+  drop_na(pharm_class10)
+```
+
+
+
 
 ```{r}
 orange_book_raw |> 
