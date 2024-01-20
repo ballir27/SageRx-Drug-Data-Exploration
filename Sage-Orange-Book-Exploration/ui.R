@@ -20,9 +20,9 @@ fluidPage(
         sidebarPanel(
             sliderInput("application_count",
                         "Minimum Number of Applications:",
-                        min = 10,
+                        min = 1,
                         max = 500,
-                        value = 200),
+                        value = 100),
             
             #Make a select box 
             selectInput("drug_type", 
@@ -39,7 +39,8 @@ fluidPage(
 
         # Show a plot of the generated distribution
         mainPanel(
-            plotOutput("distPlot")
+            plotOutput("companyPlot"),
+            plotOutput("yearPlot")
         )
     )
 )

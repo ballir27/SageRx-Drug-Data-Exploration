@@ -30,7 +30,7 @@ function(input, output, session) {
       filter(appl_type %in% appl_type_filter)
   })
   
-  output$distPlot <- renderPlot({
+  output$companyPlot <- renderPlot({
     
     # generate bins based on input$bins from ui.R
     #x    <- faithful[, 2]
@@ -42,6 +42,16 @@ function(input, output, session) {
       filter(n()>input$application_count) |> 
       ggplot(aes(x = applicant)) +
       geom_bar() +
+      theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+    
+  })
+  
+  output$yearPlot <- renderPlot({
+    
+    filtered() |>
+      count(approval_year) |> 
+      ggplot(aes(x = approval_year, y = n))+
+      geom_line() +
       theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
     
   })

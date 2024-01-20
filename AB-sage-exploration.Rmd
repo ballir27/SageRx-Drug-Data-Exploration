@@ -62,6 +62,13 @@ orange_book_current <- orange_book_raw |>
 
 orange_book_current |> head()
 ```
+```{r}
+orange_book_raw <- orange_book_raw |> 
+  mutate(approval_year = as.numeric(str_sub(approval_date,-4,-1)))
+
+orange_book_raw |> 
+  count(approval_year)
+```
 
 
 

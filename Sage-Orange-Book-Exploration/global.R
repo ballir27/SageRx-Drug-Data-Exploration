@@ -7,6 +7,10 @@ orange_book_raw <- read_csv("data/orange_book_products.csv")
 orange_book_raw <- orange_book_raw |> 
   mutate(approval_year = as.numeric(str_sub(approval_date,-4,-1)))
 
+orange_book_raw$appl_type <- orange_book_raw$appl_type |> 
+  str_replace_all(c("A"= "AN", "N" = "NDA"))
+
+
 drug_types <- orange_book_raw |> 
   pull(type) |> 
   unique() |>  
@@ -14,7 +18,7 @@ drug_types <- orange_book_raw |>
 
 drug_types <- c("All", drug_types)
 
-appl_types <- orange_book_raw |> 
+appl_types <- orange_book_raw |>
   pull(appl_type) |> 
   unique() |>  
   sort()
