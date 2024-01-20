@@ -40,7 +40,8 @@ fluidPage(
         # Show a plot of the generated distribution
         mainPanel(
             plotOutput("companyPlot"),
-            plotOutput("yearPlot")
+            plotOutput("yearPlot"),
+            dataTableOutput("table")
         )
     )
 )

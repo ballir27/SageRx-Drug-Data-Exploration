@@ -56,4 +56,8 @@ function(input, output, session) {
     
   })
   
+  output$table <- renderDataTable({
+    filtered()
+  })
+  
 }
