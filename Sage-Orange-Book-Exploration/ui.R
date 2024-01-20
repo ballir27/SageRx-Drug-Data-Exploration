@@ -20,15 +20,21 @@ fluidPage(
         sidebarPanel(
             sliderInput("application_count",
                         "Minimum Number of Applications:",
-                        min = 100,
-                        max = 1000,
-                        value = 300),
+                        min = 10,
+                        max = 500,
+                        value = 200),
             
             #Make a select box 
             selectInput("drug_type", 
-                        label = h3("Prescription, OTC, or Discontinued?"), 
+                        label = h3("Prescription (RX), OTC, or Discontinued?"), 
                         choices = drug_types, 
                         selected = drug_types[1]),
+            
+            #Make a select box 
+            selectInput("application_type", 
+                        label = h3("New Drug (NDA) or Generic (ANDA)?"), 
+                        choices = appl_types, 
+                        selected = appl_types[1])
         ),
 
         # Show a plot of the generated distribution

@@ -12,6 +12,24 @@ library(shiny)
 # Define server logic required to draw a histogram
 function(input, output, session) {
   
+  filtered <- reactive({
+    if (input$drug_type == "All"){
+      drug_type_filter <- drug_types
+    } else{
+      drug_type_filter <- input$drug_type
+    }
+    
+    if (input$application_type == "Both"){
+      appl_type_filter <- appl_types
+    } else{
+      appl_type_filter <- input$application_type
+    }
+    
+    orange_book_raw |>  
+      filter(type %in% drug_type_filter) |> 
+      filter(appl_type %in% appl_type_filter)
+  })
+  
   output$distPlot <- renderPlot({
     
     # generate bins based on input$bins from ui.R
@@ -19,11 +37,10 @@ function(input, output, session) {
     #bins <- seq(min(x), max(x), length.out = input$bins + 1)
     
     # draw the histogram with the specified number of bins
-    orange_book_raw |>
-      filter(type == input$drug_type) |> 
-      group_by(applicant_full_name) |>
+    filtered() |>
+      group_by(applicant) |>
       filter(n()>input$application_count) |> 
-      ggplot(aes(x = applicant_full_name)) +
+      ggplot(aes(x = applicant)) +
       geom_bar() +
       theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
     
