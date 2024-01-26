@@ -51,9 +51,11 @@ fluidPage(
 
         # Show a plot of the generated distribution
         mainPanel(
-            fluidRow(plotOutput("companyPlot")),
-            fluidRow(column(width = 12, style = 'padding:20px;'), plotOutput("yearPlot")),
-            fluidRow(column(width = 12, style = 'padding:50px;'), dataTableOutput("table"))
+          tabsetPanel(
+            tabPanel("Company Plot", fluidRow(plotOutput("companyPlot"))),
+            tabPanel("Year Plot", fluidRow(column(width = 12, style = 'padding:20px;'), plotOutput("yearPlot"))),
+            tabPanel("Table", fluidRow(column(width = 12, style = 'padding:50px;'), dataTableOutput("table")))
+            )
         )
     )
 )
