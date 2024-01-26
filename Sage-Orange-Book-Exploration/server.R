@@ -25,7 +25,7 @@ function(input, output, session) {
       appl_type_filter <- input$application_type
     }
     
-    orange_book_raw |>  
+    orangebook_ndc_merged |>  
       filter(type %in% drug_type_filter) |> 
       filter(appl_type %in% appl_type_filter)
   })
@@ -42,7 +42,8 @@ function(input, output, session) {
       filter(n()>input$application_count) |> 
       ggplot(aes(x = applicant)) +
       geom_bar() +
-      theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+      theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+      labs(title = "Number of Orange Book Entries per Company", x = "Company", y = "Number of Orange Book Entries")
     
   })
   
@@ -52,12 +53,15 @@ function(input, output, session) {
       count(approval_year) |> 
       ggplot(aes(x = approval_year, y = n))+
       geom_line() +
-      theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+      theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+      labs(title = "Orange Book Entries by Year", x = "Year", y = "Number of Approved Drugs")
     
   })
   
   output$table <- renderDataTable({
-    filtered()
+    #orangebook_ndc_merged |> 
+    filtered() |> 
+      select(ingredient, drug_form, application_method, trade_name, applicant, strength, appl_type, appl_no, approval_date, type, pharm_classes)
   })
   
 }

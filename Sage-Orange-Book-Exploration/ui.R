@@ -9,7 +9,7 @@
 
 library(shiny)
 
-# Define UI for application that draws a histogram
+# Define UI for application
 fluidPage(
 
     # Application title
@@ -22,7 +22,7 @@ fluidPage(
                         "Minimum Number of Applications:",
                         min = 1,
                         max = 500,
-                        value = 100),
+                        value = 150),
             
             #Make a select box 
             selectInput("drug_type", 
