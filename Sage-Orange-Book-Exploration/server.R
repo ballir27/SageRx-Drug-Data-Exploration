@@ -25,9 +25,23 @@ function(input, output, session) {
       appl_type_filter <- input$application_type
     }
     
+    if (input$drug_form == "All"){
+      drug_form_filter <- drug_forms
+    } else{
+      drug_form_filter <- input$drug_form
+    }
+    
+    if (input$application_method == "All"){
+      application_method_filter <- application_methods
+    } else{
+      application_method_filter <- input$application_method
+    }
+    
     orangebook_ndc_merged |>  
       filter(type %in% drug_type_filter) |> 
-      filter(appl_type %in% appl_type_filter)
+      filter(appl_type %in% appl_type_filter) |> 
+      filter(drug_form %in% drug_form_filter) |> 
+      filter(application_method %in% application_method_filter)
   })
   
   output$companyPlot <- renderPlot({
@@ -42,9 +56,8 @@ function(input, output, session) {
       filter(n()>input$application_count) |> 
       ggplot(aes(x = applicant)) +
       geom_bar() +
-      theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
-      labs(title = "Number of Orange Book Entries per Company", x = "Company", y = "Number of Orange Book Entries")
-    
+      labs(title = "Number of Orange Book Entries per Company", x = "Company", y = "Number of Orange Book Entries") +
+      theme(plot.title = element_text(size = 20, hjust = 0.5), axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
   })
   
   output$yearPlot <- renderPlot({
@@ -53,9 +66,8 @@ function(input, output, session) {
       count(approval_year) |> 
       ggplot(aes(x = approval_year, y = n))+
       geom_line() +
-      theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
-      labs(title = "Orange Book Entries by Year", x = "Year", y = "Number of Approved Drugs")
-    
+      labs(title = "Orange Book Entries by Year", x = "Year", y = "Number of Approved Drugs") +
+      theme(plot.title = element_text(size = 20, hjust = 0.5), axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
   })
   
   output$table <- renderDataTable({

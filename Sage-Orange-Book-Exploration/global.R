@@ -18,9 +18,13 @@ orange_book_raw$appl_type <- orange_book_raw$appl_type |>
 orange_book_raw <- orange_book_raw |> 
   separate_wider_delim(df_route,";",names = c("drug_form", "application_method"))
 
+orange_book_raw$drug_form <- word(orange_book_raw$drug_form,1,sep = "\\,")
+orange_book_raw$application_method <- word(orange_book_raw$application_method,1,sep = "\\,")
+
 #Merge orangebook and fda_ndc here
 orangebook_ndc_merged <- left_join(orange_book_raw,fda_ndc_product_edit, by="appl_no" )
 
+#create drug types list
 drug_types <- orangebook_ndc_merged |> 
   pull(type) |> 
   unique() |>  
@@ -28,9 +32,26 @@ drug_types <- orangebook_ndc_merged |>
 
 drug_types <- c("All", drug_types)
 
+#create application types list
 appl_types <- orangebook_ndc_merged |>
   pull(appl_type) |> 
   unique() |>  
   sort()
 
 appl_types <- c("Both", appl_types)
+
+#create drug forms list
+drug_forms <- orangebook_ndc_merged |>
+  pull(drug_form) |> 
+  unique() |>  
+  sort()
+
+drug_forms <- c("All", drug_forms)
+
+# #create application method list
+application_methods <- orangebook_ndc_merged |>
+  pull(application_method) |>
+  unique() |>
+  sort()
+
+application_methods <- c("All", application_methods)

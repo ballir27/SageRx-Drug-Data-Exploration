@@ -30,6 +30,9 @@ fda_ndc_product_raw |>
 ```{r}
 orange_book_raw <- orange_book_raw |> 
   separate_wider_delim(df_route,";",names = c("Drug Form", "Application Method"))
+
+orange_book_raw$`Drug Form` <- word(orange_book_raw$`Drug Form`,1,sep = "\\,")
+orange_book_raw$`Application Method` <- word(orange_book_raw$`Application Method`,1,sep = "\\,")
 ```
 
 ```{r}

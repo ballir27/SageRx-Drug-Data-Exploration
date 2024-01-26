@@ -20,7 +20,7 @@ fluidPage(
         sidebarPanel(
             sliderInput("application_count",
                         "Minimum Number of Applications:",
-                        min = 1,
+                        min = 0,
                         max = 500,
                         value = 150),
             
@@ -34,14 +34,26 @@ fluidPage(
             selectInput("application_type", 
                         label = h3("New Drug (NDA) or Generic (ANDA)?"), 
                         choices = appl_types, 
-                        selected = appl_types[1])
+                         selected = appl_types[1]),
+            
+            # #Make a select box 
+            selectInput("drug_form",
+                        label = h3("What form does the drug come in?"),
+                        choices = drug_forms,
+                        selected = drug_forms[1]),
+
+            # #Make a select box 
+            selectInput("application_method",
+                        label = h3("How is the drug applied?"),
+                        choices = application_methods,
+                        selected = application_methods[1])
         ),
 
         # Show a plot of the generated distribution
         mainPanel(
-            plotOutput("companyPlot"),
-            plotOutput("yearPlot"),
-            dataTableOutput("table")
+            fluidRow(plotOutput("companyPlot")),
+            fluidRow(column(width = 12, style = 'padding:20px;'), plotOutput("yearPlot")),
+            fluidRow(column(width = 12, style = 'padding:50px;'), dataTableOutput("table"))
         )
     )
 )
