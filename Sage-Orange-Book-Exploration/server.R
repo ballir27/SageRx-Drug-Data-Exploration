@@ -57,7 +57,8 @@ function(input, output, session) {
       ggplot(aes(x = applicant)) +
       geom_bar() +
       labs(title = "Number of Orange Book Entries per Company", x = "Company", y = "Number of Orange Book Entries") +
-      theme(plot.title = element_text(size = 20, hjust = 0.5), axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+      theme(plot.title = element_text(size = 20, hjust = 0.5), axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+      geom_text(aes(label = ..count..), stat = "count", vjust = -.25,)
   })
   
   output$yearPlot <- renderPlot({

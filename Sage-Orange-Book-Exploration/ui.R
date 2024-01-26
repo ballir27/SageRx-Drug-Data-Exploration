@@ -22,7 +22,7 @@ fluidPage(
                         "Minimum Number of Applications:",
                         min = 0,
                         max = 500,
-                        value = 150),
+                        value = 300),
             
             #Make a select box 
             selectInput("drug_type", 
