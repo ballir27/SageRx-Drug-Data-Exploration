@@ -22,7 +22,7 @@ fluidPage(
                         "Minimum Number of Applications:",
                         min = 0,
                         max = 500,
-                        value = 300),
+                        value = 200),
             
             #Make a select box 
             selectInput("drug_type", 
@@ -46,6 +46,12 @@ fluidPage(
             selectInput("application_method",
                         label = h3("How is the drug applied?"),
                         choices = application_methods,
+                        selected = application_methods[1]),
+            
+            # #Make a select box 
+            selectInput("ingredient",
+                        label = h3("Are you looking for a specific ingredient?"),
+                        choices = ingredients,
                         selected = application_methods[1])
         ),
 
@@ -54,6 +60,7 @@ fluidPage(
           tabsetPanel(
             tabPanel("Company Plot", fluidRow(plotOutput("companyPlot"))),
             tabPanel("Year Plot", fluidRow(column(width = 12, style = 'padding:20px;'), plotOutput("yearPlot"))),
+            tabPanel("Drug Form Plot", fluidRow(column(width = 12, style = 'padding:20px'), plotOutput("formPlot"))),
             tabPanel("Table", fluidRow(column(width = 12, style = 'padding:50px;'), dataTableOutput("table")))
             )
         )

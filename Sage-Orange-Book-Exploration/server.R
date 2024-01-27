@@ -37,18 +37,22 @@ function(input, output, session) {
       application_method_filter <- input$application_method
     }
     
+    if (input$ingredient == "All"){
+      ingredients_filter <- ingredients
+    } else{
+      ingredients_filter <- input$ingredient
+    }
+    
     orangebook_ndc_merged |>  
       filter(type %in% drug_type_filter) |> 
       filter(appl_type %in% appl_type_filter) |> 
       filter(drug_form %in% drug_form_filter) |> 
-      filter(application_method %in% application_method_filter)
+      filter(application_method %in% application_method_filter) |> 
+      filter(ingredient %in% ingredients_filter) |> 
+      distinct()
   })
   
   output$companyPlot <- renderPlot({
-    
-    # generate bins based on input$bins from ui.R
-    #x    <- faithful[, 2]
-    #bins <- seq(min(x), max(x), length.out = input$bins + 1)
     
     # draw the histogram with the specified number of bins
     filtered() |>
@@ -64,11 +68,26 @@ function(input, output, session) {
   output$yearPlot <- renderPlot({
     
     filtered() |>
+      group_by(appl_type) |> 
       count(approval_year) |> 
-      ggplot(aes(x = approval_year, y = n))+
-      geom_line() +
+      ggplot(aes(x = approval_year, y = n, color = appl_type)) +
+      geom_line() + geom_point() +
       labs(title = "Orange Book Entries by Year", x = "Year", y = "Number of Approved Drugs") +
-      theme(plot.title = element_text(size = 20, hjust = 0.5), axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+      theme(plot.title = element_text(size = 20, hjust = 0.5), axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+      scale_colour_manual(values = MyPalette) +
+      scale_x_continuous(labels= 1982:2023, breaks = 1982:2023, expand = c(0,0.5))
+  })
+  
+  output$formPlot <- renderPlot({
+    
+    # draw the histogram with the specified number of bins
+    filtered() |>
+      group_by(drug_form) |>
+      ggplot(aes(x = drug_form)) +
+      geom_bar() +
+      labs(title = "Number of Orange Book Entries per Drug Form", x = "Drug Form", y = "Number of Approved Drugs") +
+      theme(plot.title = element_text(size = 20, hjust = 0.5), axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+      geom_text(aes(label = ..count..), stat = "count", vjust = -.25,)
   })
   
   output$table <- renderDataTable({
