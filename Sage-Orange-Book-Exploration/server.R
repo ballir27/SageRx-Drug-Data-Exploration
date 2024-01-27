@@ -87,7 +87,7 @@ function(input, output, session) {
       geom_bar() +
       labs(title = "Number of Orange Book Entries per Drug Form", x = "Drug Form", y = "Number of Approved Drugs") +
       theme(plot.title = element_text(size = 20, hjust = 0.5), axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
-      geom_text(aes(label = ..count..), stat = "count", vjust = -.25,)
+      geom_text(aes(label = ..count..), stat = "count", vjust = -.1,)
   })
   
   output$table <- renderDataTable({
