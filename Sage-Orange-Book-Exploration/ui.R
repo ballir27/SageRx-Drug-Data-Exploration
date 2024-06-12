@@ -7,8 +7,6 @@
 #    https://shiny.posit.co/
 #
 
-library(shiny)
-
 # Define UI for application
 fluidPage(
 
@@ -25,10 +23,12 @@ fluidPage(
                         value = 200),
             
             #Make a select box 
-            selectInput("drug_type", 
+            pickerInput("drug_type", 
                         label = h3("Prescription (RX), OTC, or Discontinued?"), 
                         choices = drug_types, 
-                        selected = drug_types[1]),
+                        selected = drug_types[1:3],
+                        options = list(`actions-box` = TRUE),
+                        multiple = T),
             
             #Make a select box 
             selectInput("application_type", 
@@ -52,7 +52,7 @@ fluidPage(
             selectInput("ingredient",
                         label = h3("Are you looking for a specific ingredient?"),
                         choices = ingredients,
-                        selected = application_methods[1])
+                        selected = ingredients[1])
         ),
 
         # Show a plot of the generated distribution

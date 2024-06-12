@@ -13,11 +13,11 @@ library(shiny)
 function(input, output, session) {
   
   filtered <- reactive({
-    if (input$drug_type == "All"){
-      drug_type_filter <- drug_types
-    } else{
-      drug_type_filter <- input$drug_type
-    }
+    # if (input$drug_type == "All"){
+    #   drug_type_filter <- drug_types
+    # } else{
+    #   drug_type_filter <- input$drug_type
+    # }
     
     if (input$application_type == "Both"){
       appl_type_filter <- appl_types
@@ -44,7 +44,7 @@ function(input, output, session) {
     }
     
     orangebook_ndc_merged |>  
-      filter(type %in% drug_type_filter) |> 
+      filter(type %in% input$drug_type) |> 
       filter(appl_type %in% appl_type_filter) |> 
       filter(drug_form %in% drug_form_filter) |> 
       filter(application_method %in% application_method_filter) |> 
@@ -54,7 +54,6 @@ function(input, output, session) {
   
   output$companyPlot <- renderPlot({
     
-    # draw the histogram with the specified number of bins
     filtered() |>
       group_by(applicant) |>
       filter(n()>input$application_count) |> 
@@ -80,7 +79,6 @@ function(input, output, session) {
   
   output$formPlot <- renderPlot({
     
-    # draw the histogram with the specified number of bins
     filtered() |>
       group_by(drug_form) |>
       ggplot(aes(x = drug_form)) +

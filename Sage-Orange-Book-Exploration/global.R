@@ -1,4 +1,5 @@
 library(shiny)
+library(shinyWidgets)
 library(tidyverse)
 library(DT)
 
@@ -33,7 +34,8 @@ drug_types <- orangebook_ndc_merged |>
   unique() |>  
   sort()
 
-drug_types <- c("All", drug_types)
+#No longer needed due to pickerInput
+#drug_types <- c("All", drug_types)
 
 #create application types list
 appl_types <- orangebook_ndc_merged |>
